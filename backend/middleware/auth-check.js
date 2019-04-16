@@ -20,7 +20,7 @@ module.exports = (req, res, next) => {
     const userId = decoded.sub
 
     return connection.query(
-      'CALL getUser(?, ?)',
+      'CALL selectUser(?, ?)',
       [userId, null],
       (sqlErr, rows) => {
         // if the user could not be found or some other error occurred
