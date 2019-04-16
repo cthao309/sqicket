@@ -21,12 +21,13 @@ app.use(logger('dev'))
 app.use(express.json())
 app.use(express.urlencoded({ extended: false }))
 app.use(cookieParser())
-app.use(bodyParser.urlencoded({extended:true}))
+app.use(bodyParser.urlencoded({ extended: true }))
 app.use(express.static(path.join(__dirname, 'public')))
 app.use(passport.initialize())
 
 // load passport strategies
 const localLoginStrategy = require('./passport/local-login')
+
 passport.use('local-login', localLoginStrategy)
 
 // allow CORS
@@ -37,7 +38,7 @@ app.use((req, res, next) => {
   if (req.method === 'OPTIONS') {
     return res.end()
   }
-  next()
+  return next()
 })
 
 // authentication middleware

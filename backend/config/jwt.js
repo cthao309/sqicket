@@ -1,4 +1,4 @@
 // json web token secret
 module.exports = {
-  jwtSecret : 'squiket - jwt phrase: shhh, its a secret!'
+  jwtSecret: 'squiket - jwt phrase: shhh, its a secret!',
 };

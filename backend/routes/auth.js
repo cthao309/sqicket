@@ -1,6 +1,7 @@
 const express = require('express')
-const router = express.Router()
 const passport = require('passport')
+
+const router = express.Router()
 
 function validateLoginForm(payload) {
   const errors = {}
@@ -22,11 +23,10 @@ function validateLoginForm(payload) {
   }
 
   return {
-    success : isFormValid,
+    success: isFormValid,
     message,
     errors,
   }
-
 }
 
 // validate user login request
@@ -34,9 +34,9 @@ router.post('/', (req, res, next) => {
   const validationResult = validateLoginForm(req.body)
   if (!validationResult.success) {
     return res.status(400).json({
-      success : false,
-      message : validationResult.message,
-      errors  : validationResult.errors,
+      success: false,
+      message: validationResult.message,
+      errors: validationResult.errors,
     })
   }
 
@@ -44,22 +44,22 @@ router.post('/', (req, res, next) => {
     if (err) {
       if (err.name === 'IncorrectCredentialsError') {
         return res.status(400).json({
-          success : false,
-          message : err.message,
+          success: false,
+          message: err.message,
         })
       }
 
       return res.status(400).json({
-        success : false,
-        message : 'Could not process the form.',
+        success: false,
+        message: 'Could not process the form.',
       })
     }
 
     return res.json({
-      success : true,
-      message : 'You have successfully logged in.',
-      token   : token,
-      user    : userData,
+      success: true,
+      message: 'You have successfully logged in.',
+      token,
+      user: userData,
     })
   })(req, res, next)
 })
