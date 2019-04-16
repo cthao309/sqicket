@@ -1,14 +1,46 @@
-var express = require('express');
-var router = express.Router();
+const express = require('express')
+const router = express.Router()
+const passport = require('passport')
 
-/* GET users listing. */
-router.get('/', function(req, res, next) {
-  res.json({});
-});
+function validateLoginForm(payload) {
+  const errors = {}
+  let isFormValid = true
+  let message = ''
 
+  if (!payload || typeof payload.username !== 'string' || payload.username.trim().length === 0) {
+    isFormValid = false
+    errors.username = 'Please provide your username.'
+  }
+
+  if (!payload || typeof payload.password !== 'string' || payload.password.trim().length === 0) {
+    isFormValid = false
+    errors.password = 'Please provide your password.'
+  }
+
+  if (!isFormValid) {
+    message = 'Check the form for errors.'
+  }
+
+  return {
+    success : isFormValid,
+    message,
+    errors,
+  }
+
+}
+
+// validate user login request
 router.post('/', (req, res, next) => {
+  const validationResult = validateLoginForm(req.body)
+  if (!validationResult.success) {
+    return res.status(400).json({
+      success : false,
+      message : validationResult.message,
+      errors  : validationResult.errors,
+    })
+  }
 
-  return passport.authenticate('local-login', (err, userData) => {
+  return passport.authenticate('local-login', (err, token, userData) => {
     if (err) {
       if (err.name === 'IncorrectCredentialsError') {
         return res.status(400).json({
@@ -26,11 +58,11 @@ router.post('/', (req, res, next) => {
     return res.json({
       success : true,
       message : 'You have successfully logged in.',
-      token,
+      token   : token,
       user    : userData,
     })
   })(req, res, next)
 })
 
 
-module.exports = router;
+module.exports = router
