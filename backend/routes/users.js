@@ -14,7 +14,7 @@ connection.query(`USE ${dbconfig.database}`)
 //
 router.get('/', (req, res) => {
   connection.query(
-    'CALL selectUser(?, ?)',
+    'CALL getUser(?, ?)',
     [null, null],
     (err, responseObject) => {
       // if sql returns an error,  forward to client
@@ -40,7 +40,7 @@ router.get('/', (req, res) => {
 router.get('/:user', (req, res) => {
   const isNumeric = /^\d+$/.test(req.params.user)
   connection.query(
-    'CALL selectUser(?, ?)',
+    'CALL getUser(?, ?)',
     isNumeric ? [req.params.user, null] : [null, req.params.user],
     (err, responseObject) => {
       // if sql returns an error,  forward to client
