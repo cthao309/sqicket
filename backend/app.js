@@ -7,12 +7,13 @@ const logger = require('morgan')
 const passport = require('passport')
 
 // require the router modules
+const assignmentsRouter = require('./routes/assignments')
 const authRouter = require('./routes/auth')
-const usersRouter = require('./routes/users')
 const issuesRouter = require('./routes/issues')
-const projectsRouter = require('./routes/projects')
 const labelsRouter = require('./routes/labels')
+const projectsRouter = require('./routes/projects')
 const rolesRouter = require('./routes/roles')
+const usersRouter = require('./routes/users')
 
 const app = express()
 
@@ -45,11 +46,12 @@ app.use((req, res, next) => {
 const authCheckMiddleware = require('./middleware/auth-check')
 
 // tell express which router to use based on endpoint
+app.use('/api/v1/assignments', authCheckMiddleware, assignmentsRouter)
 app.use('/api/v1/auth', authRouter)
-app.use('/api/v1/users', authCheckMiddleware, usersRouter)
 app.use('/api/v1/issues', authCheckMiddleware, issuesRouter)
-app.use('/api/v1/projects', authCheckMiddleware, projectsRouter)
 app.use('/api/v1/labels', authCheckMiddleware, labelsRouter)
+app.use('/api/v1/projects', authCheckMiddleware, projectsRouter)
 app.use('/api/v1/roles', authCheckMiddleware, rolesRouter)
+app.use('/api/v1/users', authCheckMiddleware, usersRouter)
 
 module.exports = app

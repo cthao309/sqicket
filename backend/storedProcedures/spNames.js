@@ -11,5 +11,8 @@ module.exports = {
   DELETE_PROJECT: 'CALL deleteProject(?)',
 
   // Roles
-  GET_ROLES: 'CALL getroles()',
+  GET_ROLE: 'CALL getRole()',
+
+  // Assignments
+  GET_ASSIGNMENT: 'CALL getAssignment(?, ?)',
 }
