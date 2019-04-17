@@ -1,14 +1,8 @@
 const express = require('express')
-const mysql = require('mysql')
 const bcrypt = require('bcrypt-nodejs')
-const dbconfig = require('../config/database')
 const sp = require('../storedProcedures/spFunctions')
 
 const router = express.Router();
-const connection = mysql.createConnection(dbconfig.connection)
-
-// establish connection to mysql database
-connection.query(`USE ${dbconfig.database}`)
 
 //
 // GET -  retrieve a list of all users

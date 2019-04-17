@@ -1,39 +1,32 @@
-const mysql = require('mysql')
-const dbconfig = require('../config/database')
-const spNames = require('./spNames')
+const mysql = require("mysql");
+const dbconfig = require("../config/database");
+const spNames = require("./spNames");
 
 // establish connection to mysql database
-const connection = mysql.createConnection(dbconfig.connection)
-connection.query(`USE ${dbconfig.database}`)
+const connection = mysql.createConnection(dbconfig.connection);
+connection.query(`USE ${dbconfig.database}`);
 
 module.exports = {
-  getUser: (
-    userId,
-    username,
-    cb,
-  ) => {
-    connection.query(
-      spNames.GET_USER,
-      [userId, username],
-      cb,
-    )
+
+  // USER FUNCTIONS
+  getUser: (userId, username, cb) => {
+    connection.query(spNames.GET_USER, [userId, username], cb);
   },
 
   insertUser: (
     username,
     firstName,
-    lastName,
     password,
     email,
     comments,
     roleId,
-    cb,
+    cb
   ) => {
     connection.query(
       spNames.INSERT_USER,
       [username, firstName, lastName, password, email, comments, roleId],
-      cb,
-    )
+      cb
+    );
   },
 
   updateUser: (
@@ -45,59 +38,47 @@ module.exports = {
     email,
     comments,
     roleId,
-    cb,
+    cb
   ) => {
     connection.query(
       spNames.UPDATE_USER,
-      [userId, username, firstName, lastName, hashedPassword, email, comments, roleId],
-      cb,
-    )
+      [
+        userId,
+        username,
+        firstName,
+        lastName,
+        hashedPassword,
+        email,
+        comments,
+        roleId
+      ],
+      cb
+    );
   },
 
-  deleteUser: (
-    userId,
-    cb,
-  ) => {
-    connection.query(
-      spNames.DELETE_USER,
-      [userId],
-      cb,
-    )
+  deleteUser: (userId, cb) => {
+    connection.query(spNames.DELETE_USER, [userId], cb);
   },
+
   // PROJECTS FUNCTIONS
-    getProject: (
-      projectId,
-      projectName,
-      cb,
-    ) => {
-      connection.query(
-        spNames.GET_PROJECT,
-        [projectId, projectName],
-        cb
-      )
-    },
+  getProject: (projectId, projectName, cb) => {
+    connection.query(spNames.GET_PROJECT, [projectId, projectName], cb);
+  },
 
-    insertProject: (
-      projectName,
-      projectDescription,
-      createdByUserId,
-      cb,
-    ) => {
-      connection.query(
-        spNames.INSERT_PROJECT,
-        [projectName, projectDescription, createdByUserId],
-        cb
-      )
-    },
+  insertProject: (projectName, projectDescription, createdByUserId, cb) => {
+    connection.query(
+      spNames.INSERT_PROJECT,
+      [projectName, projectDescription, createdByUserId],
+      cb
+    );
+  },
 
-    deleteProject: (
-      projectId,
-      cb,
-    ) => {
-      connection.query(
-        spNames.DELETE_PROJECT,
-        [projectId],
-        cb,
-      )
-    },
-}
+  deleteProject: (projectId, cb) => {
+    connection.query(spNames.DELETE_PROJECT, [projectId], cb);
+  },
+
+  // ROLE FUNCTIONS
+  getRoles: cb => {
+    connection.query(spNames.GET_ROLES, cb);
+  }
+};
