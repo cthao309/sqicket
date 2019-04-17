@@ -64,4 +64,40 @@ module.exports = {
       cb,
     )
   },
+  // PROJECTS FUNCTIONS
+    getProject: (
+      projectId,
+      projectName,
+      cb,
+    ) => {
+      connection.query(
+        spNames.GET_PROJECT,
+        [projectId, projectName],
+        cb
+      )
+    },
+
+    insertProject: (
+      projectName,
+      projectDescription,
+      createdByUserId,
+      cb,
+    ) => {
+      connection.query(
+        spNames.INSERT_PROJECT,
+        [projectName, projectDescription, createdByUserId],
+        cb
+      )
+    },
+
+    deleteProject: (
+      projectId,
+      cb,
+    ) => {
+      connection.query(
+        spNames.DELETE_PROJECT,
+        [projectId],
+        cb,
+      )
+    },
 }
