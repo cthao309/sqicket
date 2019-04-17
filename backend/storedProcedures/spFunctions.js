@@ -64,4 +64,13 @@ module.exports = {
       cb,
     )
   },
+
+  getRoles: (
+    cb,
+  ) => {
+    connection.query(
+      spNames.GET_ROLES,
+      cb,
+    )
+  },
 }
