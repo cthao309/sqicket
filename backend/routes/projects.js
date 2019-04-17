@@ -23,15 +23,15 @@ router.get('/', (req, res) => {
 router.post('/', (req, res) => {
   // de-structure required form fields from req.body
   const {
-    name,
+    projectName,
     projectDescription,
     createdByUserId,
   } = req.body
-  console.log(name,projectDescription,createdByUserId)
+  console.log(projectName,projectDescription,createdByUserId)
   // call mysql stored procedure to insert new project
   connection.query(
     'CALL insertProject(?, ?, ?)',
-    [name, projectDescription, createdByUserId],
+    [projectName, projectDescription, createdByUserId],
     (err, responseObject) => {
       // if sql returns an error, forward to client
       if (err) {
@@ -46,7 +46,6 @@ router.post('/', (req, res) => {
       return res.json({
         success: true,
         message: result.msg,
-        created_by_user_id: result. createdByUserId,
       })
     },
   )
