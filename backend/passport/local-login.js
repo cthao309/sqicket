@@ -18,7 +18,7 @@ module.exports = new PassportLocalStrategy(
   },
   (req, username, password, done) => {
     connection.query(
-      'CALL selectUser(?, ?)',
+      'CALL getUser(?, ?)',
       [null, username],
       (err, responseObj) => {
         if (err) return done(err)
