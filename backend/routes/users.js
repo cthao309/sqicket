@@ -2,6 +2,7 @@ const express = require('express')
 const mysql = require('mysql')
 const bcrypt = require('bcrypt-nodejs')
 const dbconfig = require('../config/database')
+const sp = require('../storedProcedures/spFunctions')
 
 const router = express.Router();
 const connection = mysql.createConnection(dbconfig.connection)
@@ -13,9 +14,9 @@ connection.query(`USE ${dbconfig.database}`)
 // GET -  retrieve a list of all users
 //
 router.get('/', (req, res) => {
-  connection.query(
-    'CALL getUser(?, ?)',
-    [null, null],
+  sp.getUser(
+    null,
+    null,
     (err, responseObject) => {
       // if sql returns an error,  forward to client
       if (err) {
@@ -39,9 +40,9 @@ router.get('/', (req, res) => {
 //
 router.get('/:user', (req, res) => {
   const isNumeric = /^\d+$/.test(req.params.user)
-  connection.query(
-    'CALL getUser(?, ?)',
-    isNumeric ? [req.params.user, null] : [null, req.params.user],
+  const args = isNumeric ? [req.params.user, null] : [null, req.params.user]
+  sp.getUser(
+    ...args,
     (err, responseObject) => {
       // if sql returns an error,  forward to client
       if (err) {
@@ -75,10 +76,14 @@ router.post('/', (req, res) => {
     roleId,
   } = req.body
   const hashedPassword = bcrypt.hashSync(password, null, null)
-  // call mysql stored procedure to insert new user
-  connection.query(
-    'CALL insertUser(?, ?, ?, ?, ?, ?, ?)',
-    [username, firstName, lastName, hashedPassword, email, comments, roleId],
+  sp.insertUser(
+    username,
+    firstName,
+    lastName,
+    hashedPassword,
+    email,
+    comments,
+    roleId,
     (err, responseObject) => {
       // if sql returns an error, forward to client
       if (err) {
@@ -115,10 +120,15 @@ router.put('/', (req, res) => {
     roleId,
   } = req.body
   const hashedPassword = bcrypt.hashSync(password, null, null)
-  // call mysql stored procedure to insert new user
-  connection.query(
-    'CALL updateUser(?, ?, ?, ?, ?, ?, ?, ?)',
-    [userId, username, firstName, lastName, hashedPassword, email, comments, roleId],
+  sp.updateUser(
+    userId,
+    username,
+    firstName,
+    lastName,
+    hashedPassword,
+    email,
+    comments,
+    roleId,
     (err, responseObject) => {
       // if sql returns an error, forward to client
       if (err) {
@@ -144,10 +154,8 @@ router.put('/', (req, res) => {
 router.delete('/', (req, res) => {
   // destructure userId from req.body
   const { userId } = req.body
-  // call mysql stored procedure to delete user by userId
-  connection.query(
-    'CALL deleteUser(?)',
-    [userId],
+  sp.deleteUser(
+    userId,
     (err, responseObject) => {
       // if sql returns an error,  forward to client
       if (err) {
@@ -166,4 +174,5 @@ router.delete('/', (req, res) => {
     },
   )
 })
+
 module.exports = router;
