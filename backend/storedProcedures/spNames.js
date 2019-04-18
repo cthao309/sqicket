@@ -9,10 +9,15 @@ module.exports = {
   GET_PROJECT: 'CALL getProject(?, ?)',
   INSERT_PROJECT: 'CALL insertProject(?, ?, ?)',
   DELETE_PROJECT: 'CALL deleteProject(?)',
+  UPDATE_PROJECT: 'CALL updateProject(?, ?, ?, ?)',
 
   // Roles
   GET_ROLE: 'CALL getRole()',
 
   // Assignments
   GET_ASSIGNMENT: 'CALL getAssignment(?, ?)',
+
+  // Issues
+  // INSERT_ISSUE: 
+
 }

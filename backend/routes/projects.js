@@ -49,6 +49,7 @@ router.get('/:project', (req, res) => {
     });
   });
 });
+
 //
 // POST - insert a new project into projects table
 //
@@ -78,6 +79,39 @@ router.post('/', (req, res) => {
   );
 });
 
+//
+// PUT - update a user
+//
+router.put('/', (req, res) => {
+  const {
+    projectId,
+    projectName,
+    projectDescription,
+    createdByUserId,
+  } = req.body
+  sp.updateProject(
+    projectId,
+    projectName,
+    projectDescription,
+    createdByUserId,
+    (err, responseObject) => {
+      // if sql returns an error, forward to client
+      if (err) {
+        return res.json({
+          success: false,
+          message: err.sqlMessage,
+        })
+      }
+      // otherwise, extract relevant info from responseObject and send to client
+      const returnedData = responseObject[0]
+      const result = returnedData[0]
+      return res.json({
+        success: !!result.success,
+        message: result.msg,
+      })
+    },
+  )
+})
 //
 // DELETE - mark a project is being deleted
 //

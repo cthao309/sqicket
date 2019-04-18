@@ -113,6 +113,20 @@ module.exports = {
     )
   },
 
+  updateProject: (
+    projectId,
+    projectName,
+    projectDescription,
+    createdByUserId,
+    cb,
+  ) => {
+    connection.query(
+      spNames.UPDATE_PROJECT,
+      [projectId, projectName, projectDescription, createdByUserId],
+      cb,
+    )
+  },
+
   // ROLE FUNCTIONS
   getRoles: (
     cb,
