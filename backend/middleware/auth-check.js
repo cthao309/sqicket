@@ -1,12 +1,6 @@
 const jwt = require('jsonwebtoken')
-const mysql = require('mysql')
-const dbconfig = require('../config/database')
 const jwtConfig = require('../config/jwt')
-
-const connection = mysql.createConnection(dbconfig.connection)
-
-// establish connection to mysql database
-connection.query(`USE ${dbconfig.database}`)
+const sp = require('../storedProcedures/spFunctions')
 
 module.exports = (req, res, next) => {
   if (!req.headers.authorization) {
@@ -19,18 +13,18 @@ module.exports = (req, res, next) => {
     if (jwtErr) { return res.status(401).end() }
     const userId = decoded.sub
 
-    return connection.query(
-      'CALL getUser(?, ?)',
-      [userId, null],
-      (sqlErr, rows) => {
+    sp.getUser(
+      userId,
+      null,
+      (sqlErr, responseObject) => {
         // if the user could not be found or some other error occurred
-        if (sqlErr || !rows.length) {
+        if (sqlErr || !responseObject.length) {
           return res.status(401).end()
         }
 
-        // all is well, so generate json web token based on user's id and jwt secret phrase
-        // and return object with username
-        res.locals.userId = rows[0].user_id
+        // all is well, so add users id to res.locals in case its needed downstream
+        const returnedData = responseObject[0]
+        res.locals.loggedInUserId = returnedData[0].user_id
         return next()
       },
     )

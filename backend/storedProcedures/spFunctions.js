@@ -26,6 +26,7 @@ module.exports = {
     firstName,
     lastName,
     password,
+    changedBy,
     email,
     comments,
     roleId,
@@ -33,7 +34,7 @@ module.exports = {
   ) => {
     connection.query(
       spNames.INSERT_USER,
-      [username, firstName, lastName, password, email, comments, roleId],
+      [username, firstName, lastName, password, changedBy, email, comments, roleId],
       cb,
     )
   },

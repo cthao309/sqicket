@@ -59,6 +59,8 @@ router.get('/:user', (req, res) => {
 // POST - insert a new user
 //
 router.post('/', (req, res) => {
+  const createdBy = res.locals.loggedInUserId
+  console.log( 'createdBy',createdBy)
   // destructure required form fields from req.body
   const {
     username,
@@ -75,6 +77,7 @@ router.post('/', (req, res) => {
     firstName,
     lastName,
     hashedPassword,
+    createdBy,
     email,
     comments,
     roleId,
