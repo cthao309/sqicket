@@ -16,8 +16,10 @@ module.exports = {
 
   // Assignments
   GET_ASSIGNMENT: 'CALL getAssignment(?, ?)',
+  INSERT_ASSIGNMENT: 'CALL insertAssignment(?, ?)',
+  DELETE_ASSIGNMENT: 'CALL deleteAssignment(?, ?)',
 
   // Issues
-  // INSERT_ISSUE: 
+  // INSERT_ISSUE:
 
 }
