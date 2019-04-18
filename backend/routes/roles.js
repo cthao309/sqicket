@@ -7,7 +7,7 @@ const router = express.Router();
 // GET -  retrieve a list of all roles
 //
 router.get('/', (req, res) => {
-  sp.getRoles(
+  sp.getRole(
     (err, responseObject) => {
       // if sql returns an error,  forward to client
       if (err) {

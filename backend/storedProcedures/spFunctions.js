@@ -114,11 +114,11 @@ module.exports = {
   },
 
   // ROLE FUNCTIONS
-  getRoles: (
+  getRole: (
     cb,
   ) => {
     connection.query(
-      spNames.GET_ROLES,
+      spNames.GET_ROLE,
       cb,
     )
   },
@@ -131,6 +131,30 @@ module.exports = {
   ) => {
     connection.query(
       spNames.GET_ASSIGNMENT,
+      [userId, projectId],
+      cb,
+    )
+  },
+
+  insertAssignment: (
+    userId,
+    projectId,
+    cb,
+  ) => {
+    connection.query(
+      spNames.INSERT_ASSIGNMENT,
+      [userId, projectId],
+      cb,
+    )
+  },
+
+  deleteAssignment: (
+    userId,
+    projectId,
+    cb,
+  ) => {
+    connection.query(
+      spNames.DELETE_ASSIGNMENT,
       [userId, projectId],
       cb,
     )
